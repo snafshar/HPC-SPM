@@ -1,0 +1,26 @@
+name: SLURM Playbook CI
+
+on:
+  push:
+    paths:
+      - "labs/2026-10-19/slurm-playbook/**"
+      - ".github/workflows/slurm-playbook-ci.yml"
+  pull_request:
+    paths:
+      - "labs/2026-10-19/slurm-playbook/**"
+      - ".github/workflows/slurm-playbook-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  portable-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check Bash and SLURM template syntax
+        run: bash labs/2026-10-19/slurm-playbook/check_scripts.sh
